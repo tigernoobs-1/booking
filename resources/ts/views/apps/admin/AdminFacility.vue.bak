@@ -1,0 +1,83 @@
+<script setup lang="ts">
+
+interface Status {
+  'Active': string
+  'Inactive': string
+}
+
+interface Facility {
+  icon: string
+  name: string
+  status: keyof Status
+  description: string
+}
+
+const facilities: Facility[] = [
+  {
+    icon: 'tabler-home',
+    name: 'Helang - Meeting Room',
+    status: 'Active',
+    description: 'Meeting room located at Helang GF',
+  },
+  {
+    icon: 'tabler-home',
+    name: 'Helang - War Room',
+    status: 'Active',
+    description: '11 minutes ago',
+  },
+  {
+    icon: 'tabler-jump-rope',
+    name: 'Gym',
+    status: 'Active',
+    description: '9 minutes ago',
+  },
+  {
+    icon: 'tabler-ball-football',
+    name: 'Futsal Court',
+    status: 'Inactive',
+    description: '28 minutes ago',
+  },
+]
+
+const resolveStatusColor: Status = {
+  'Active': 'success',
+  'Inactive': 'default',
+}
+</script>
+
+<template>
+  <VCard>
+    <VCardText class="d-flex flex-sm-row flex-column gap-x-5">
+      <VBtn prepend-icon="tabler-plus">
+        Add
+      </VBtn>
+    </VCardText>
+  </VCard>
+
+  <VList lines="two" border>
+    <template v-for="(facility, index) of facilities" :key="facility.name">
+      <VListItem>
+        <template #prepend>
+          <VIcon start :icon="facility.icon" />
+        </template>
+        <VListItemTitle>
+          {{ facility.name }}
+        </VListItemTitle>
+        <VListItemSubtitle class="mt-1">
+          <span>
+            <VChip label :color="resolveStatusColor[facility.status]" size="x-small" class="">
+              {{ facility.status }}
+            </VChip>
+          </span>
+          <span class="text-xs ms-2">{{ facility.description }}</span>
+        </VListItemSubtitle>
+        <template #append>
+          <VBtn size="small">
+            Update
+          </VBtn>
+        </template>
+      </VListItem>
+      <VDivider v-if="index !== facilities.length - 1" />
+    </template>
+  </VList>
+</template>
